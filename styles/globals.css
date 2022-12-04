@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 html,
 body {
   padding: 0;
@@ -13,6 +17,10 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+#task-container::-webkit-scrollbar {
+  display: none;
 }
 
 @media (prefers-color-scheme: dark) {
