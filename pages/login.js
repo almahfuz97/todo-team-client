@@ -2,38 +2,28 @@ import Link from "next/link";
 import { useContext } from "react";
 import { AuthProvider } from "../AuthContext";
 
-
-
-const signup = () => {
-    const { createUser, user } = useContext(AuthProvider)
-    // console.log(abc)
-    const handleCreateUser = event => {
+const login = () => {
+    const { login } = useContext(AuthProvider)
+    const hanldeLogin = event => {
         event.preventDefault()
         const form = event.target;
-        const name = form.name.value;
         const email = form.email.value;
         const password = form.password.value;
-        createUser(email, password)
+        login(email, password)
             .then(result => {
-                const users = result.user
+                const user = result.user
                 console.log(user)
             })
             .catch(err => console.log(err))
     }
     return (
         <div className="hero min-h-screen bg-base-200">
-            <div className="hero-content flex-col gap-5 lg:flex-row-reverse">
+            <div className="hero-content flex-col gap-5 lg:flex-row">
                 <div className="text-center lg:text-left">
-                    <img src='./signup.png' alt="hello" className="w-3/4" />
+                    <img src='./login.png' alt="login" className="w-3/4" />
                 </div>
                 <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-                    <form onSubmit={handleCreateUser} className="card-body">
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text">Name</span>
-                            </label>
-                            <input type="text" name="name" placeholder="full-name" className="input input-bordered italic text-xs" />
-                        </div>
+                    <form onSubmit={hanldeLogin} className="card-body">
                         <div className="form-control">
                             <label className="label">
                                 <span className="label-text">Email</span>
@@ -45,8 +35,8 @@ const signup = () => {
                                 <span className="label-text">Password</span>
                             </label>
                             <input type="password" name="password" placeholder="password" className="input input-bordered italic text-xs" />
-                            <div className="form-control ml-2 italic underline text-blue-500">
-                                <p><small><Link href="/login">Login</Link></small></p>
+                            <div className="form-control ml-2 italic ">
+                                <p><small>New to this ? <Link className="underline text-blue-500" href="/login">SignUp</Link></small></p>
                             </div>
                         </div>
                         <div className="form-control mt-6">
@@ -59,4 +49,4 @@ const signup = () => {
     );
 };
 
-export default signup;
+export default login;
