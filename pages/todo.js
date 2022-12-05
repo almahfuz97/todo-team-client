@@ -9,7 +9,8 @@ const todo = ({ todos }) => {
   const handleTask = async (event) => {
     if (event.code === "Enter") {
       const todo = {
-        task
+        task,
+        status: "Not Complete"
       }
       console.log(todo);
 
@@ -50,21 +51,21 @@ const todo = ({ todos }) => {
 
           {/* map tasks from here */}
           {
-            todos.map(todo => <div className="flex justify-between bg-white hover:bg-base-200 p-3 rounded-lg mb-2">
+            todos?.map(todo => <div key={todo._id} className="flex justify-between hover:bg-base-200 p-3 rounded-lg mb-2">
               <input
                 type="checkbox"
                 onChange={(e) => handleCompleteTask(e)}
                 className="checkbox mr-3 border-2 border-gray-600"
               />
-              <p className="flex-grow font-semibold">Complete the todo app</p>
+              <p className="flex-grow font-semibold">{todo?.task}</p>
               <div className="flex ">
-                <p className="font-semibold ml-5 mr-3">status</p>
+                <p className="font-semibold ml-5 mr-3">{todo?.status}</p>
                 <button className="btn btn-xs " onClick={() => handleRemoveTask()}>X</button>
               </div>
             </div>)
           }
 
-          
+
 
           {/* <div className="flex justify-between bg-white hover:bg-base-200 p-3 rounded-lg mb-2">
             <input
