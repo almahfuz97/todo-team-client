@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { AiOutlineRight } from "react-icons/ai";
+import { connectToDatabase } from "../util/mongodb";
 
-const todo = () => {
+const todo = ({ todos }) => {
+  console.log(todos);
   const [task, setTask] = useState(0);
 
   const handleTask = (event) => {
@@ -16,8 +18,8 @@ const todo = () => {
     // remove task using task id
   }
 
-  const handleCompleteTask = (e, id) =>{
-    if(e.target.checked === true){
+  const handleCompleteTask = (e, id) => {
+    if (e.target.checked === true) {
       console.log("Task completed");
       // save completed task in database.
     }
@@ -39,39 +41,39 @@ const todo = () => {
           <div className="flex justify-between bg-white hover:bg-base-200 p-3 rounded-lg mb-2">
             <input
               type="checkbox"
-              onChange={(e)=>handleCompleteTask(e)}
+              onChange={(e) => handleCompleteTask(e)}
               className="checkbox mr-3 border-2 border-gray-600"
             />
             <p className="flex-grow font-semibold">Complete the todo app</p>
             <div className="flex ">
               <p className="font-semibold ml-5 mr-3">status</p>
-              <button className="btn btn-xs " onClick={()=>handleRemoveTask()}>X</button>
+              <button className="btn btn-xs " onClick={() => handleRemoveTask()}>X</button>
             </div>
           </div>
 
           <div className="flex justify-between bg-white hover:bg-base-200 p-3 rounded-lg mb-2">
             <input
               type="checkbox"
-              onChange={(e)=>handleCompleteTask(e)}
+              onChange={(e) => handleCompleteTask(e)}
               className="checkbox mr-3 border-2 border-gray-600"
             />
             <p className="flex-grow font-semibold">Complete the todo app</p>
             <div className="flex ">
               <p className="font-semibold ml-5 mr-3">status</p>
-              <button className="btn btn-xs " onClick={()=>handleRemoveTask()}>X</button>
+              <button className="btn btn-xs " onClick={() => handleRemoveTask()}>X</button>
             </div>
           </div>
 
           <div className="flex justify-between bg-white hover:bg-base-200 p-3 rounded-lg mb-2">
             <input
               type="checkbox"
-              onChange={(e)=>handleCompleteTask(e)}
+              onChange={(e) => handleCompleteTask(e)}
               className="checkbox mr-3 border-2 border-gray-600"
             />
             <p className="flex-grow font-semibold">Complete the todo app</p>
             <div className="flex ">
               <p className="font-semibold ml-5 mr-3">status</p>
-              <button onClick={()=>handleRemoveTask()} className="btn btn-xs ">X</button>
+              <button onClick={() => handleRemoveTask()} className="btn btn-xs ">X</button>
             </div>
           </div>
         </div>
@@ -93,3 +95,13 @@ const todo = () => {
 };
 
 export default todo;
+
+export async function getServerSideProps(context) {
+  const { client, db } = await connectToDatabase();
+  const data = await db.collection("todos").find({}).toArray();
+  const todos = JSON.parse(JSON.stringify(data));
+
+  return {
+    props: { todos: todos },
+  }
+}
