@@ -5,7 +5,7 @@ import { AuthProvider } from "../AuthContext";
 
 
 const signup = () => {
-    const { createUser, user } = useContext(AuthProvider)
+    const { createUser, user, updateUser } = useContext(AuthProvider)
     // console.log(abc)
     const handleCreateUser = event => {
         event.preventDefault()
@@ -16,7 +16,28 @@ const signup = () => {
         createUser(email, password)
             .then(result => {
                 const users = result.user
-                console.log(user)
+                const profile = {
+                    displayName: name
+                }
+                updateUser(profile)
+                    .then(() => {
+                        console.log(users)
+                        const userInfo = {
+                            email,
+                            name
+                        }
+                        console.log(userInfo)
+                        fetch('https://todo-server-team-siamcse.vercel.app/users', {
+                            method: 'POST',
+                            headers: {
+                                'content-type': 'application/json'
+                            },
+                            body: JSON.stringify(userInfo)
+                        })
+                            .then(res => res.json())
+                            .then(data => console.log(data))
+                    })
+                    .catch(err => console.log(err))
             })
             .catch(err => console.log(err))
     }
