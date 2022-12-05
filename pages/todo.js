@@ -6,10 +6,22 @@ const todo = ({ todos }) => {
   console.log(todos);
   const [task, setTask] = useState(0);
 
-  const handleTask = (event) => {
+  const handleTask = async (event) => {
     if (event.code === "Enter") {
-      console.log(task);
+      const todo = {
+        task
+      }
+      console.log(todo);
+
       // send task to database from here
+      const data = await fetch('http://localhost:3000/api/post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(todo),
+      })
+      console.log(data);
     }
   };
 
@@ -37,21 +49,24 @@ const todo = ({ todos }) => {
         <div className="overflow-y-scroll h-[73vh]" id="task-container">
 
           {/* map tasks from here */}
+          {
+            todos.map(todo => <div className="flex justify-between bg-white hover:bg-base-200 p-3 rounded-lg mb-2">
+              <input
+                type="checkbox"
+                onChange={(e) => handleCompleteTask(e)}
+                className="checkbox mr-3 border-2 border-gray-600"
+              />
+              <p className="flex-grow font-semibold">Complete the todo app</p>
+              <div className="flex ">
+                <p className="font-semibold ml-5 mr-3">status</p>
+                <button className="btn btn-xs " onClick={() => handleRemoveTask()}>X</button>
+              </div>
+            </div>)
+          }
 
-          <div className="flex justify-between bg-white hover:bg-base-200 p-3 rounded-lg mb-2">
-            <input
-              type="checkbox"
-              onChange={(e) => handleCompleteTask(e)}
-              className="checkbox mr-3 border-2 border-gray-600"
-            />
-            <p className="flex-grow font-semibold">Complete the todo app</p>
-            <div className="flex ">
-              <p className="font-semibold ml-5 mr-3">status</p>
-              <button className="btn btn-xs " onClick={() => handleRemoveTask()}>X</button>
-            </div>
-          </div>
+          
 
-          <div className="flex justify-between bg-white hover:bg-base-200 p-3 rounded-lg mb-2">
+          {/* <div className="flex justify-between bg-white hover:bg-base-200 p-3 rounded-lg mb-2">
             <input
               type="checkbox"
               onChange={(e) => handleCompleteTask(e)}
@@ -75,7 +90,7 @@ const todo = ({ todos }) => {
               <p className="font-semibold ml-5 mr-3">status</p>
               <button onClick={() => handleRemoveTask()} className="btn btn-xs ">X</button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
