@@ -51,7 +51,7 @@ const todo = ({ todos }) => {
 
           {/* map tasks from here */}
           {
-            todos?.map(todo => <div key={todo._id} className="flex justify-between bg-white hover:bg-base-200 p-3 rounded-lg mb-2">
+            todos?.map(todo => <div key={todo._id} className="flex justify-between hover:bg-base-200 p-3 rounded-lg mb-2">
               <input
                 type="checkbox"
                 onChange={(e) => handleCompleteTask(e)}
